@@ -4,6 +4,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import Jobs from "./Jobs";
 import Card from "../components/Card";
 import Newsletter from "../components/Newsletter";
+import axios from "axios";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -12,14 +13,29 @@ const Home = () => {
   const itemsPerPage = 6;
   const [isLoading, setIsLoading] = useState(true);
 
+  const fetchAllJobs = () => {
+    let config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: "https://codeshashtra-x-backend.vercel.app/api/jobs/all",
+      headers: {},
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        setJobs(response.data.data);
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     setIsLoading(true);
-    fetch("http://localhost:5000/all-jobs")
-      .then((res) => res.json())
-      .then((data) => {
-        setJobs(data);
-        setIsLoading(false);
-      });
+    fetchAllJobs();
+    setIsLoading(false);
   }, []);
 
   // ----------- Input Filter -----------
@@ -34,7 +50,7 @@ const Home = () => {
   };
 
   const filteredItems = jobs.filter(
-    (job) => job.jobTitle.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    (job) => job.title.toLowerCase().indexOf(query.toLowerCase()) !== -1
   );
 
   // ----------- Radio Filtering -----------
@@ -84,19 +100,19 @@ const Home = () => {
 
       filteredJobs = filteredJobs.filter(
         ({
-          jobLocation,
-          salaryType,
-          experienceLevel,
-          maxPrice,
-          postingDate,
-          employmentType,
+          location,
+          salary_type,
+          experience_level,
+          max_salary,
+          posting_date,
+          employment_type,
         }) =>
-          jobLocation.toLowerCase() === selected.toLowerCase() &&
-          postingDate === selected &&
-          parseInt(maxPrice) <= parseInt(selected) &&
-          salaryType.toLowerCase() === selected.toLowerCase() &&
-          experienceLevel.toLowerCase() === selected.toLowerCase() &&
-          employmentType.toLowerCase() === selected.toLowerCase()
+          location.toLowerCase() === selected.toLowerCase() &&
+          posting_date === selected &&
+          parseInt(max_salary) <= parseInt(selected) &&
+          salary_type.toLowerCase() === selected.toLowerCase() &&
+          experience_level.toLowerCase() === selected.toLowerCase() &&
+          employment_type.toLowerCase() === selected.toLowerCase()
       );
       console.log(filteredJobs);
     }

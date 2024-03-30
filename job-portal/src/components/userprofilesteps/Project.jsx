@@ -5,9 +5,22 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 class Projects extends Component {
-  state = {
-    open: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      // Initialize state properties for project titles, links, and descriptions
+      title1: "",
+      link1: "",
+      projectDescription1: "",
+      title2: "",
+      link2: "",
+      projectDescription2: "",
+      title3: "",
+      link3: "",
+      projectDescription3: "",
+    };
+  }
 
   continue = (e) => {
     e.preventDefault();
@@ -42,6 +55,10 @@ class Projects extends Component {
     }));
   };
 
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
   render() {
     const { values, classes } = this.props;
 
@@ -49,7 +66,7 @@ class Projects extends Component {
       <div className="py-12 text-start dark:bg-gray-900 mx-auto max-w-3xl space-y-8">
         <div className="container space-y-8">
           <div className="space-y-2 text-center">
-            <h2 className="text-3xl font-bold">Register Your Project</h2>
+            <h2 className="text-3xl font-bold">Project Information </h2>
             <p className="text-gray-500 dark:text-gray-400">
               Enter the details of your project below.
             </p>
@@ -64,9 +81,10 @@ class Projects extends Component {
                     </Label>
                     <Input
                       id={`project-${index}-title`}
+                      name={`title${index}`}
                       required
-                      value={values[`title${index}`]}
-                      onChange={this.props.handleChange}
+                      value={this.state[`title${index}`]}
+                      onChange={this.handleChange}
                     />
                   </div>
                   <div className="space-y-2">
@@ -75,11 +93,12 @@ class Projects extends Component {
                     </Label>
                     <Input
                       id={`project-${index}-link`}
+                      name={`link${index}`}
                       placeholder="https://"
                       required
                       type="url"
-                      value={values[`link${index}`]}
-                      onChange={this.props.handleChange}
+                      value={this.state[`link${index}`]}
+                      onChange={this.handleChange}
                     />
                   </div>
                 </div>
@@ -89,10 +108,11 @@ class Projects extends Component {
                   </Label>
                   <Textarea
                     id={`project-${index}-description`}
+                    name={`projectDescription${index}`}
                     placeholder="Enter a brief description of your project."
                     required
-                    value={values[`projectDescription${index}`]}
-                    onChange={this.props.handleChange}
+                    value={this.state[`projectDescription${index}`]}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>

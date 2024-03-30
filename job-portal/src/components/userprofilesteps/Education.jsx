@@ -5,9 +5,20 @@ import { Input } from "@/components/ui/input"; // Assuming you have an Input com
 import { Button } from "../ui/button";
 
 class Education extends Component {
-  state = {
-    open: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      college: "",
+      fromyear1: "",
+      toyear1: "",
+      qualification1: "",
+      school: "",
+      fromyear2: "",
+      toyear2: "",
+      qualification2: "",
+      open: false,
+    };
+  }
 
   continue = (e) => {
     e.preventDefault();
@@ -34,11 +45,25 @@ class Education extends Component {
     this.setState({ open: false });
   };
 
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
   render() {
-    const { values, classes } = this.props;
+    const { classes } = this.props;
+    const {
+      college,
+      fromyear1,
+      toyear1,
+      qualification1,
+      school,
+      fromyear2,
+      toyear2,
+      qualification2,
+    } = this.state;
 
     return (
-      <div className="mx-auto max-w-3xl space-y-8   pb-10">
+      <div className="mx-auto max-w-3xl space-y-8 pb-10">
         <div className="space-y-8 text-start">
           <div className="space-y-2">
             <h2 className="text-2xl font-bold">Education Details</h2>
@@ -51,9 +76,10 @@ class Education extends Component {
               <Label htmlFor="college">College/University</Label>
               <Input
                 id="college"
+                name="college"
                 placeholder="Enter college/university"
-                value={values.college}
-                onChange={this.props.handleChange}
+                value={college}
+                onChange={this.handleChange}
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -61,20 +87,22 @@ class Education extends Component {
                 <Label htmlFor="fromyear1">From Year</Label>
                 <Input
                   id="fromyear1"
+                  name="fromyear1"
                   placeholder="Enter start date"
                   type="date"
-                  value={values.fromyear1}
-                  onChange={this.props.handleChange}
+                  value={fromyear1}
+                  onChange={this.handleChange}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="toyear1">To Year</Label>
                 <Input
                   id="toyear1"
+                  name="toyear1"
                   placeholder="Enter end date"
                   type="date"
-                  value={values.toyear1}
-                  onChange={this.props.handleChange}
+                  value={toyear1}
+                  onChange={this.handleChange}
                 />
               </div>
             </div>
@@ -82,18 +110,20 @@ class Education extends Component {
               <Label htmlFor="qualification1">Qualification</Label>
               <Input
                 id="qualification1"
+                name="qualification1"
                 placeholder="Enter qualification"
-                value={values.qualification1}
-                onChange={this.props.handleChange}
+                value={qualification1}
+                onChange={this.handleChange}
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="school">School</Label>
               <Input
                 id="school"
+                name="school"
                 placeholder="Enter school"
-                value={values.school}
-                onChange={this.props.handleChange}
+                value={school}
+                onChange={this.handleChange}
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -101,20 +131,22 @@ class Education extends Component {
                 <Label htmlFor="fromyear2">From Year</Label>
                 <Input
                   id="fromyear2"
+                  name="fromyear2"
                   placeholder="Enter start date"
                   type="date"
-                  value={values.fromyear2}
-                  onChange={this.props.handleChange}
+                  value={fromyear2}
+                  onChange={this.handleChange}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="toyear2">To Year</Label>
                 <Input
                   id="toyear2"
+                  name="toyear2"
                   placeholder="Enter end date"
                   type="date"
-                  value={values.toyear2}
-                  onChange={this.props.handleChange}
+                  value={toyear2}
+                  onChange={this.handleChange}
                 />
               </div>
             </div>
@@ -122,9 +154,10 @@ class Education extends Component {
               <Label htmlFor="qualification2">Qualification</Label>
               <Input
                 id="qualification2"
+                name="qualification2"
                 placeholder="Enter qualification"
-                value={values.qualification2}
-                onChange={this.props.handleChange}
+                value={qualification2}
+                onChange={this.handleChange}
               />
             </div>
           </div>
@@ -135,8 +168,6 @@ class Education extends Component {
           </Button>
           <Button onClick={this.continue}>Next</Button>
         </div>
-        {/* <p className="text-center text-muted">Page 2</p> */}
-        {/* <Button onClick={this.save}>Save</Button> */}
       </div>
     );
   }

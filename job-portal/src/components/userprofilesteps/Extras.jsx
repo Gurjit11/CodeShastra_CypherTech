@@ -3,16 +3,38 @@ import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { ShieldCloseIcon } from "lucide-react";
+import axios from "axios";
 
 const Extras = ({ values, handleChange, nextStep, prevStep, save }) => {
   const [open, setOpen] = useState(false);
-
+  console.log(values);
   const createAndDownloadPDF = () => {
     // Implement createAndDownloadPDF function here
   };
 
+  const createUser = async (data) => {
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "https://codeshashtra-x-backend.vercel.app/api/user/profile/create",
+      headers: {},
+      data: mapData(data),
+    };
+
+    console.log(mapData(data));
+
+    await axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleSave = (e) => {
-    save();
+    createUser(values);
   };
 
   const handleClose = (event, reason) => {
@@ -109,12 +131,14 @@ const Extras = ({ values, handleChange, nextStep, prevStep, save }) => {
           />
         </div>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center gap-10">
         <Button onClick={prevStep}>Back</Button>
-        <Button onClick={nextStep}>Next</Button>
+        {/* <Button onClick={save}>Next</Button> */}
       </div>
-      <Button onClick={createAndDownloadPDF}>Download Resume</Button>
-      <Button onClick={handleSave}>Save</Button>
+      <div className="flex justify-center gap-10">
+        <Button onClick={createAndDownloadPDF}>Download Resume</Button>
+        <Button onClick={handleSave}>Save</Button>
+      </div>
     </form>
   );
 };

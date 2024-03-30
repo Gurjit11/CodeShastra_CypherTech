@@ -1,10 +1,4 @@
 import React, { Component } from "react";
-// import { Button, Container, Divider } from "@material-ui/core";
-// import { Paper, withStyles } from "@material-ui/core";
-// import Snackbar from "@material-ui/core/Snackbar";
-// import IconButton from "@material-ui/core/IconButton";
-// import CloseIcon from "@mui/icons-material/Close";
-// import MuiAlert from "@mui/material/Alert";
 import { Button } from "../ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -12,9 +6,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { ShieldCloseIcon } from "lucide-react";
 
 class Experience extends Component {
-  state = {
-    open: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      institute1: "",
+      position1: "",
+      duration1: "",
+      experienceDescription1: "",
+      institute2: "",
+      position2: "",
+      duration2: "",
+      experienceDescription2: "",
+    };
+  }
 
   continue = (e) => {
     e.preventDefault();
@@ -31,9 +36,7 @@ class Experience extends Component {
     promise
       .then((res) => {
         if (res.status === 200) {
-          this.setState((prevState) => ({
-            open: true,
-          }));
+          this.setState({ open: true });
         }
       })
       .catch((err) => console.log(err));
@@ -44,23 +47,12 @@ class Experience extends Component {
       return;
     }
 
-    this.setState((prevState) => ({
-      open: false,
-    }));
+    this.setState({ open: false });
   };
 
-  action = (
-    <React.Fragment>
-      <Button
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={this.handleClose}
-      >
-        <ShieldCloseIcon fontSize="small" />
-      </Button>
-    </React.Fragment>
-  );
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
 
   render() {
     const { values, classes } = this.props;
@@ -84,9 +76,10 @@ class Experience extends Component {
                     </Label>
                     <Input
                       id={`experience-${index}-organization`}
+                      name={`institute${index}`}
                       required
-                      value={values[`institute${index}`]}
-                      onChange={this.props.handleChange}
+                      value={this.state[`institute${index}`]}
+                      onChange={this.handleChange}
                     />
                   </div>
                   <div className="space-y-2">
@@ -95,9 +88,10 @@ class Experience extends Component {
                     </Label>
                     <Input
                       id={`experience-${index}-position`}
+                      name={`position${index}`}
                       required
-                      value={values[`position${index}`]}
-                      onChange={this.props.handleChange}
+                      value={this.state[`position${index}`]}
+                      onChange={this.handleChange}
                     />
                   </div>
                 </div>
@@ -108,9 +102,10 @@ class Experience extends Component {
                     </Label>
                     <Input
                       id={`experience-${index}-duration`}
+                      name={`duration${index}`}
                       required
-                      value={values[`duration${index}`]}
-                      onChange={this.props.handleChange}
+                      value={this.state[`duration${index}`]}
+                      onChange={this.handleChange}
                     />
                   </div>
                 </div>
@@ -120,17 +115,18 @@ class Experience extends Component {
                   </Label>
                   <Textarea
                     id={`experience-${index}-description`}
+                    name={`experienceDescription${index}`}
                     placeholder="Enter a brief description of your experience."
                     required
-                    value={values[`experienceDescription${index}`]}
-                    onChange={this.props.handleChange}
+                    value={this.state[`experienceDescription${index}`]}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
             ))}
           </div>
         </div>
-        <div className="flex justify-center  ">
+        <div className="flex justify-center">
           <Button className="mr-20" onClick={this.back}>
             Back
           </Button>

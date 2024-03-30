@@ -71,6 +71,18 @@ const router = createBrowserRouter([
         path: "/company/:id",
         element: <CompanyDesc />,
       },
+      {
+        path: "/roadmap/",
+        element: <CompanyDesc />,
+      },
+      {
+        path: "/interview/",
+        element: <CompanyDesc />,
+      },
+      {
+        path: "//",
+        element: <CompanyDesc />,
+      },
     ],
   },
   {

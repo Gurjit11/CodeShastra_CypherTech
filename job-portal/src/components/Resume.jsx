@@ -74,25 +74,6 @@ const mapData = (data) => {
   };
 };
 
-const createUser = async (data) => {
-  let config = {
-    method: "post",
-    maxBodyLength: Infinity,
-    url: "https://codeshashtra-x-backend.vercel.app/api/user/profile/create",
-    headers: {},
-    data: mapData(data),
-  };
-
-  await axios
-    .request(config)
-    .then((response) => {
-      console.log(JSON.stringify(response.data));
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
 // createUser({
 //   first_name: "Ashish",
 //   last_name: "Shukla",
@@ -208,7 +189,7 @@ const Resume = ({ user }) => {
   };
 
   const save = () => {
-    createUser(formData);
+    // createUser(formData);
   };
 
   return (
