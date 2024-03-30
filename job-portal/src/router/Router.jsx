@@ -12,6 +12,9 @@ import Login from "../pages/Login";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import CompanyLogin from "@/pages/CompanyLogin";
 import UserLogin from "@/pages/UserLogin";
+import ViewApplicants from "@/components/ViewApplicants";
+import ApplicantScore from "@/pages/ApplicantScore";
+import CompanyDesc from "@/pages/CompanyDesc";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +58,18 @@ const router = createBrowserRouter([
       {
         path: "/userlogin",
         element: <UserLogin />,
+      },
+      {
+        path: "/applicants/:id",
+        element: <ViewApplicants />,
+      },
+      {
+        path: "/applicantscore/:id",
+        element: <ApplicantScore />,
+      },
+      {
+        path: "/company/:id",
+        element: <CompanyDesc />,
       },
     ],
   },

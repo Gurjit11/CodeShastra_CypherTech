@@ -77,6 +77,7 @@ async function run() {
           postedBy: req.params.email,
         })
         .toArray();
+      console.log("jobs---", req.params.email, jobs);
       res.send(jobs);
     });
 

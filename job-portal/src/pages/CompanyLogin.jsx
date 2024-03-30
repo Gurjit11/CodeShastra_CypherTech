@@ -4,12 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
+import axios from "axios";
 
 export default function CompanyLogin() {
   const [company, setCompany] = useState({
     companyName: "",
     headline: "",
     description: "",
+    companyWebsite: "",
+    number: "",
     image: "",
     benefits: "",
     locations: "",
@@ -55,14 +58,57 @@ export default function CompanyLogin() {
     }));
   };
 
+  const formatCompanyData = (data) => {
+    return {
+      name: data.companyName,
+      tagline: data.headline,
+      email: data.email,
+      number: data.number,
+      website: data.companyWebsite,
+      description: data.description,
+      location: data.locations,
+      image: data.image,
+      benefits: data.benefits,
+      size: data.companySize,
+      type: data.companyType,
+      ceo_name: data.ceo.name,
+      ceo_description: data.ceo.description,
+      culture_title: data.culture.title,
+      culture_description: data.culture.description,
+    };
+  };
+
+  // let data = '{\r\n    "name":"NMB",\r\n    "tagline":"HIHFAI",\r\n    "email":"abcd@gmail.com",\r\n    "number":"9876543210",\r\n    "website":"asjnajkscnma",\r\n    "description":"akjs,mnaklsdjajowilkj",\r\n    "location":"Mumbai",\r\n    "image":"asnaklsm",\r\n    "benefits":"akjsnakjs,naksjldkanmwlskj",\r\n    "size":"50",\r\n    "type":"Technical",\r\n    "ceo_name":"bvnc",\r\n    "ceo_description":"asjnajskcma",\r\n    "culture_title":"aksj,aiwdlkjma",\r\n    "culture_description":"askjdoiwaldjaicn aca"\r\n}';
+  const createCompany = (data) => {
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "https://codeshashtra-x-backend.vercel.app/api/company/profile/create",
+      headers: {},
+      data: formatCompanyData(data),
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Here you can submit the company data to your backend or perform any other actions
     console.log("Company data:", company);
+    createCompany(company);
     // Reset the form after submission
     setCompany({
       companyName: "",
       headline: "",
+      companyWebsite: "",
+      contact_number: "",
       description: "",
       image: "",
       benefits: "",
@@ -92,12 +138,32 @@ export default function CompanyLogin() {
             onChange={handleChange}
             required
           />
+          <div className="space-y-4">
+            <Label htmlFor="company-name">Company Website</Label>
+            <Input
+              id="company-website"
+              name="companyWebsite"
+              value={company.companyWebsite}
+              onChange={handleChange}
+              required
+            />
+          </div>
           <div className="space-y-2">
             <Label htmlFor="headline">Headline</Label>
             <Input
               id="headline"
               name="headline"
               value={company.headline}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="headline">Contact Number</Label>
+            <Input
+              id="contact_number"
+              name="number"
+              value={company.number}
               onChange={handleChange}
               required
             />
@@ -116,8 +182,15 @@ export default function CompanyLogin() {
           <div className="space-y-2">
             <Label htmlFor="image">Image</Label>
             <div className="flex w-full max-w-sm items-center space-x-2">
-              <Input className="flex-1" id="image" required type="url" />
-              <Button>Upload</Button>
+              <Input
+                className="flex-1"
+                id="image"
+                name="image"
+                value={company.image}
+                onChange={handleChange}
+                type="url"
+              />
+              {/* <Button>Upload</Button> */}
             </div>
           </div>
           <div className="space-y-2">

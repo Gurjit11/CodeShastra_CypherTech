@@ -4,6 +4,7 @@ import PageHeader from "../components/PageHeader";
 import { FaDollarSign } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import CreatableSelect from "react-select/creatable";
+import axios from "axios";
 
 const CreateJob = () => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -17,20 +18,38 @@ const CreateJob = () => {
     reset,
   } = useForm();
 
+  const formatJobData = (data) => {
+    return {
+      title: data.jobTitle,
+      description: data.description,
+      employment_type: data.employmentType,
+      location: data.jobLocation,
+      min_salary: data.minPrice ? parseInt(data.minPrice) : undefined,
+      max_salary: data.maxPrice ? parseInt(data.maxPrice) : undefined,
+      salary_type: data.salaryType,
+      experience_level: data.experienceLevel,
+      required_skills: [], // You need to extract skills from the description or provide them separately
+      postedBy: "660831a89d321114e7aa5f32",
+    };
+  };
+  // let data = '{\r\n    "title":"Node.js Developer",\r\n    "description":"aksjhakjsa",\r\n    "employment_type":"Full-Time",\r\n    "location":"Mumbai",\r\n    "min_salary":2500,\r\n    "max_salary":7500,\r\n    "salary_type":"monthly",\r\n    "experience_level":"fresher",\r\n    "required_skills":[\r\n        "node",\r\n        "c++",\r\n        "js"\r\n    ],\r\n    "postedBy":"6608042a10c5ff72b671c6c5"\r\n}';
   const onSubmit = (data) => {
-    data.skills = selectedOption;
-    fetch("http://localhost:5000/post-job", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        // console.log(result);
-        if (result.acknowledged === true) {
-          alert("Job Posted Successfully!!");
-        }
-        reset(); // Reset the form
+    console.log(data);
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "https://codeshashtra-x-backend.vercel.app/api/job/create",
+      headers: {},
+      data: formatJobData(data),
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
       });
 
     // console.log(data)
@@ -199,7 +218,6 @@ const CreateJob = () => {
               placeholder="your email"
             />
           </div>
-          sa
           <input
             type="submit"
             className="block mt-12 bg-blue-500 text-white font-semibold px-8 py-2 rounded-sm cursor-pointer"
